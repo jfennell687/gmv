@@ -78,14 +78,6 @@ require_once (OPTIONS_FRAMEWORK_URL . 'options-framework.php');
 
 }
 
-if ( class_exists( 'jigoshop' ) ) {
-require_once (PARENT_DIR . '/jigoshop_functions.php');
-}
-
-if ( class_exists( 'bbPress' ) ) {
-require_once (PARENT_DIR . '/bbpress/bbpress_functions.php');
-}
-
 
 require_once (PARENT_DIR . '/shortcodes.php');
 
@@ -122,22 +114,17 @@ jQuery(document).ready(function() {
 // http://wordpress.org/extend/plugins/bwp-minify/
 
 if ( !function_exists( 'st_registerstyles' ) ) {
-
-add_action('get_header', 'st_registerstyles');
-function st_registerstyles() {
-	$theme  = get_theme( get_current_theme());
-	$version = $theme['Version'];
-  	$stylesheets = wp_enqueue_style('skeleton', get_bloginfo('template_directory').'/skeleton.css', false, $version, 'screen, projection');
-    $stylesheets .= wp_enqueue_style('theme', get_bloginfo('stylesheet_directory').'/style.css', 'skeleton', $version, 'screen, projection');
-  	$stylesheets .= wp_enqueue_style('layout', get_bloginfo('template_directory').'/layout.css', 'theme', $version, 'screen, projection');
-    $stylesheets .= wp_enqueue_style('formalize', get_bloginfo('template_directory').'/formalize.css', 'theme', $version, 'screen, projection');
-    $stylesheets .= wp_enqueue_style('superfish', get_bloginfo('template_directory').'/superfish.css', 'theme', $version, 'screen, projection');
-		if ( class_exists( 'jigoshop' ) ) {
-	  $stylesheets .= wp_enqueue_style('jigoshop', get_bloginfo('template_directory').'/jigoshop.css', 'theme', $version, 'screen, projection');
-		}
+	add_action('get_header', 'st_registerstyles');
+	function st_registerstyles() {
+		$theme  = get_theme( get_current_theme());
+		$version = $theme['Version'];
+		$stylesheets = wp_enqueue_style('skeleton', get_bloginfo('template_directory').'/skeleton.css', false, $version, 'screen, projection');
+		$stylesheets .= wp_enqueue_style('theme', get_bloginfo('stylesheet_directory').'/style.css', 'skeleton', $version, 'screen, projection');
+		$stylesheets .= wp_enqueue_style('layout', get_bloginfo('template_directory').'/layout.css', 'theme', $version, 'screen, projection');
+		$stylesheets .= wp_enqueue_style('formalize', get_bloginfo('template_directory').'/formalize.css', 'theme', $version, 'screen, projection');
+		$stylesheets .= wp_enqueue_style('superfish', get_bloginfo('template_directory').'/superfish.css', 'theme', $version, 'screen, projection');
 		echo apply_filters ('child_add_stylesheets',$stylesheets);
-}
-
+	}
 }
 
 // Build Query vars for dynamic theme option CSS from Options Framework
@@ -223,10 +210,6 @@ if ( ! function_exists( 'skeleton_setup' ) ):
  * @since Skeleton 1.0
  */
 function skeleton_setup() {
-	
-	if ( class_exists( 'bbPress' ) ) {
-	add_theme_support( 'bbpress' );
-	}
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
@@ -543,8 +526,8 @@ function st_widgets_init() {
 		'description' => __( 'The first footer widget area', 'skeleton' ),
 		'before_widget' => '<div class="%1$s">',
 		'after_widget' => '</div>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
+		'before_title' => '<header><h3 class="widget-title">',
+		'after_title' => '</h3></header>',
 	) );
 
 	// Area 4, located in the footer. Empty by default.
@@ -554,8 +537,8 @@ function st_widgets_init() {
 		'description' => __( 'The second footer widget area', 'skeleton' ),
 		'before_widget' => '<div class="%1$s">',
 		'after_widget' => '</div>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
+		'before_title' => '<header><h3 class="widget-title">',
+		'after_title' => '</h3></header>',
 	) );
 
 	// Area 5, located in the footer. Empty by default.
@@ -578,34 +561,7 @@ function st_widgets_init() {
 		'after_widget' => '</div>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );
-	
-	// Register bbPress sidebar if plugin is installed
-	if ( class_exists( 'bbPress' ) ) {
-	register_sidebar( array(
-		'name' => __( 'Forum Sidebar', 'skeleton' ),
-		'id' => 'bbpress-widget-area',
-		'description' => __( 'Sidebar displayed in forum', 'skeleton' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-	}
-	
-	// Register Jigoshop Cart sidebar if plugin is installed
-	if ( class_exists( 'jigoshop' ) ) {
-	register_sidebar( array(
-		'name' => __( 'Jigoshop Sidebar', 'skeleton' ),
-		'id' => 'shop-widget-area',
-		'description' => __( 'Sidebar displayed in Jigoshop pages', 'skeleton' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-	}
-	
+	) );	
 }
 /** Register sidebars by running skeleton_widgets_init() on the widgets_init hook. */
 add_action( 'widgets_init', 'st_widgets_init' );
@@ -781,8 +737,10 @@ add_action('wp_head', 'logostyle');
 if ( !function_exists( 'st_header_close' ) ) {
 
 function st_header_close() {
-	echo "</div><!--end logo--><div class=\"row six columns\"></div><div class=\"row five columns\">";
-	echo '<a class="listen_ribbon" href="/listen"></a>';
+	echo "</div><!--end logo--><div class=\"row seven columns\"><a href=\"/listen\" class=\"listen_image\"></a></div>";
+	echo "<div class=\"row four columns\">";
+	echo "<a href=\"#\" class=\"chat\"></a>";
+	//echo '<a class="listen_ribbon" href="/listen"></a>';
 	echo get_search_form();
 	echo "</div></div><!--/#header-->";
 }
@@ -860,20 +818,6 @@ if ( !function_exists( 'st_before_content' ) ) {
 	$columns = 'sixteen';
 	}
 	
-	// check to see if bbpress is installed
-	
-	if ( class_exists( 'bbPress' ) ) {
-	// force wide on bbPress pages
-	if (is_bbpress()) {
-	$columns = 'sixteen';
-	}
-	
-	// unless it's the member profile
-	if (bbp_is_user_home()) {
-	$columns = 'eleven';
-	}
-	
-	} // bbPress
 
 	// Apply the markup
 	echo "<a name=\"top\" id=\"top\"></a>";

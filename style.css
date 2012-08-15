@@ -109,8 +109,23 @@ body {
 	float: right;
 	margin-right: -25px;
 }
+#header .listen_image {
+	background: url('images/listen_button.png') no-repeat top left;
+	width: 200px;
+	height: 104px;
+	float: right;
+	margin-top: 30px;
+}
+#header .chat {
+	background: url('images/chat_online.png') no-repeat top left;
+	width: 195px;
+	height: 63px;
+	float: right;
+	margin-top: 30px;
+}
 
 #header #searchform {
+	margin-top: 15px;
 	float: right;
 }
 #header #searchform input[type=text] {
@@ -145,8 +160,8 @@ body {
 	background: url('images/footer_bg.png');
 }
 #footer_top {
-	background: url('images/footer_border.png') repeat-x;
-	height: 10px;
+	background: url('images/footer_border.png') repeat;
+	height: 16px;
 }
 #footer {
 	font-size: .9em;
@@ -160,7 +175,33 @@ body {
 	font-size: 11px;
 	color: #9f9f9f;
 }
-
+#footer header {
+	background: url('images/footer_border.png') repeat;
+	margin-bottom: 10px;
+	font-size: 16px;
+	line-height: 16px;
+}
+#footer h3 {
+	display: inline;
+	padding: 0 10px;
+	margin-left: 14px;
+	background: url('images/footer_bg.png') repeat;
+	font-size: 16px;
+	line-height: 16px;
+	font-weight: normal;
+}
+#footer ul li {
+	
+}
+#footer ul li a {
+	background: url('images/stitch_staggered.png') repeat-x left bottom;
+	padding-left: 0;
+	text-decoration: none;
+	padding-bottom: 10px;
+}
+#footer ul li a:hover {
+	color: #CDCDCD;
+}
 a.themeauthor {
 	display: block;
 	width: 75px;
